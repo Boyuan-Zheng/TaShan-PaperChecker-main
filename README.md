@@ -2,6 +2,9 @@
 
 A sophisticated academic paper citation compliance checking system that automatically analyzes citations and references in academic documents, identifying mismatches, missing citations, and format inconsistencies to improve paper quality and academic standards.
 
+**Developed by**: Agent4S Project Team, TaShan Interdisciplinary Innovation Association, University of Chinese Academy of Sciences  
+**Website**: [tashan.ac.cn](https://tashan.ac.cn)
+
 ## 🚀 Features
 
 ### Document Processing
@@ -10,14 +13,28 @@ A sophisticated academic paper citation compliance checking system that automati
 - **Smart Parsing**: Automatic identification of document structure, extracting main content and reference sections
 
 ### Citation Recognition
-- **Author-Year Format**: Chinese format (张三, 2024), English format (Smith, 2020)
-- **Bracket Format**: (Zhang San, 2024), (Smith et al., 2019)
-- **Multiple Styles**: Support for various academic citation styles
 
-### Intelligent Matching
+The system recognizes citations in academic papers and matches them with reference lists. Here's what formats are currently supported:
+
+| Citation Format | Support Level | Examples | Notes |
+|----------------|---------------|----------|-------|
+| **Author-Year (Chinese)** | ✅ Full Support | 张三（2024）<br>李四 等（2020） | Complete citation-reference matching and validation |
+| **Author-Year (English)** | ✅ Full Support | Smith (2020)<br>Smith & Jones (2019)<br>Smith et al. (2018) | Complete citation-reference matching and validation |
+| **GB/T 7714-2015 著者-出版年制** | ✅ Full Support | Same as author-year formats above | This is the primary format this tool is designed for |
+| **Numeric Sequential** | ⚠️ Partial Support | [1], [2], [15]<br>[1-3] (range) | Can extract and identify, but does not perform citation-reference matching validation |
+| **GB/T 7714-2015 顺序编码制** | ⚠️ Partial Support | Same as numeric sequential | Can extract and identify only |
+| **IEEE (numeric)** | ⚠️ Partial Support | [1], [2] (bracket style only) | Can extract bracket-style numbers; superscript numbers (e.g., text¹) are not supported |
+| **APA** | ⚠️ Partial Support | Basic author-year only | Only supports basic author-year format; page numbers and advanced features not supported |
+| **MLA** | ❌ Not Supported | - | Planned but not implemented |
+| **Chicago** | ❌ Not Supported | - | Planned but not implemented |
+
+**Best Results**: This tool works best with papers using **author-year citation format** (GB/T 7714-2015 著者-出版年制 or similar styles). For papers using numeric citation systems, the tool can identify citations but cannot perform comprehensive matching analysis.
+
+### Intelligent Matching (for Author-Year Format)
 - **Bidirectional Mapping**: Precise matching between in-text citations and reference list
 - **Context Analysis**: Understanding of citation usage in document context
 - **Tolerance for Variations**: Correct matching even with slight formatting differences
+- **Note**: Full matching analysis is available for author-year format citations only
 
 ### Automated Verification & Correction
 - **Year Validation**: Detection of citation year inconsistencies with reference years
@@ -46,14 +63,14 @@ A sophisticated academic paper citation compliance checking system that automati
 
 - Python 3.8 or higher
 - pip package manager
-- Internet connection (for AI services)
+- Internet connection (required for AI-enhanced features; basic citation matching works offline)
 
 ## 🚀 Installation
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/[YOUR_USERNAME]/PaperChecker.git
-   cd PaperChecker
+   git clone https://github.com/TashanGKD/TaShan-PaperChecker.git
+   cd TaShan-PaperChecker
    ```
 
 2. Create a virtual environment:
@@ -67,12 +84,14 @@ A sophisticated academic paper citation compliance checking system that automati
    pip install -r requirements.txt
    ```
 
-4. Set up environment variables (optional):
+4. Set up environment variables (optional but recommended for AI features):
    Create a `.env` file in the project root with your API keys:
    ```env
    DASHSCOPE_API_KEY=your_dashscope_api_key
    OPENAI_API_KEY=your_openai_api_key
    ```
+   
+   **Note**: The system can work without AI API keys, but some advanced features like AI-powered citation extraction and relevance checking will be limited. Basic citation matching for author-year format will still function.
 
 5. Configure the application (optional):
    You can modify the default settings in `config/config.py` or create a `.env` file with the following options:
@@ -107,7 +126,7 @@ python run_server.py
 The API server will start on `http://localhost:8002` by default.
 
 ### Production Mode
-For production deployment, consider using a WSGI server like Gunicorn:
+For production deployment, use uvicorn with multiple workers:
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8002 --workers 4
 ```
@@ -131,7 +150,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 8002 --workers 4
 - `POST /api/relevance-check` - Perform citation relevance check with target content
 
 ### Frontend Access
-- `/frontend` - Access the web interface
+- `/frontend` - Access the web-based user interface for uploading documents and viewing analysis results
 
 ## 💡 Usage Examples
 
@@ -319,7 +338,6 @@ PaperChecker/
 - **Tenacity**: Retry mechanism for robust operations
 - **Semantic Scholar API**: Academic paper metadata retrieval
 - **Crossref API**: Reference validation and enrichment
-```
 
 ## 🧪 Testing
 
@@ -381,10 +399,19 @@ If you encounter any issues or bugs, please open an issue on GitHub with:
 For support, you can:
 - Open an issue on GitHub
 - Check the documentation in this README
-- Look at the example usage in the `examples/` directory (if available)
+- Look at the test examples in the `tests/examples/` directory
 
 ## 🙏 Acknowledgments
 
+### Development Team
+This project is developed and maintained by the **Agent4S Project Team** of the **TaShan Interdisciplinary Innovation Association (他山学科交叉创新协会)** at the **University of Chinese Academy of Sciences (中国科学院大学)**.
+
+- **Association**: TaShan Interdisciplinary Innovation Association
+- **Website**: [tashan.ac.cn](https://tashan.ac.cn)
+- **Project**: Agent4S - AI-powered Academic Tools
+- **Research Paper**: [Agent4S: The Transformation of Research Paradigms from the Perspective of Large Language Models](https://arxiv.org/abs/2506.23692) (arXiv:2506.23692)
+
+### Technical Acknowledgments
 - Built with FastAPI for high-performance API development
 - Uses advanced AI models for intelligent document analysis
 - Inspired by the need for better academic writing tools
@@ -402,4 +429,21 @@ If this project helps you or your organization, consider supporting it:
 
 For questions, suggestions, or support, feel free to:
 - Open an issue on GitHub
-- Email the maintainers at [maintainer-email@example.com] (replace with actual email)
+- Email us at: **tashanxkjc@163.com**
+- Visit our website: [tashan.ac.cn](https://tashan.ac.cn)
+
+### Follow Us
+
+**WeChat Official Account (微信公众号)**
+
+<img src="qrcode_for_gh_1367c59da856_344.jpg" alt="WeChat QR Code" width="200"/>
+
+Scan the QR code above to follow our WeChat Official Account for updates and news.
+
+**Douyin (抖音)**
+
+Search "**他山学科交叉创新协会**" on Douyin to find our Agent4S course videos and tutorials.
+
+**Learn More About Agent4S**
+
+Read our comprehensive survey paper: [Agent4S: The Transformation of Research Paradigms from the Perspective of Large Language Models](https://arxiv.org/abs/2506.23692)
